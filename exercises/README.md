@@ -1,26 +1,20 @@
-# Exercise to Book Chapter mapping
+# Options
 
-| Exercise               | Book Chapter        |
-| ---------------------- | ------------------- |
-| variables              | §3.1                |
-| functions              | §3.3                |
-| if                     | §3.5                |
-| primitive_types        | §3.2, §4.3          |
-| vecs                   | §8.1                |
-| move_semantics         | §4.1, §4.2          |
-| structs                | §5.1, §5.3          |
-| enums                  | §6, §18.3           |
-| strings                | §8.2                |
-| modules                | §7                  |
-| hashmaps               | §8.3                |
-| options                | §10.1               |
-| error_handling         | §9                  |
-| generics               | §10                 |
-| traits                 | §10.2               |
-| tests                  | §11.1               |
-| lifetimes              | §10.3               |
-| standard_library_types | §13.2, §15.1, §16.3 |
-| threads                | §16.1, §16.2, §16.3 |
-| macros                 | §19.6               |
-| clippy                 | n/a                 |
-| conversions            | n/a                 |
+Type Option represents an optional value: every Option is either Some and contains a value, or None, and does not. 
+Option types are very common in Rust code, as they have a number of uses:
+- Initial values
+- Return values for functions that are not defined over their entire input range (partial functions)
+- Return value for otherwise reporting simple errors, where None is returned on error
+- Optional struct fields
+- Struct fields that can be loaned or "taken"
+- Optional function arguments
+- Nullable pointers
+- Swapping things out of difficult situations
+
+## Further Information
+
+- [Option Enum Format](https://doc.rust-lang.org/stable/book/ch10-01-syntax.html#in-enum-definitions)
+- [Option Module Documentation](https://doc.rust-lang.org/std/option/)
+- [Option Enum Documentation](https://doc.rust-lang.org/std/option/enum.Option.html)
+- [if let](https://doc.rust-lang.org/rust-by-example/flow_control/if_let.html)
+- [while let](https://doc.rust-lang.org/rust-by-example/flow_control/while_let.html)
