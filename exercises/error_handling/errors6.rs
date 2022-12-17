@@ -36,12 +36,11 @@ fn parse_pos_nonzero(s: &str)
     // when `parse()` returns an error.
 
     match s.parse() {
-        Ok(n) => {
+        Ok(n) =>
             match PositiveNonzeroInteger::new(n) {
                 Ok(n) => Ok(n),
                 Err(e) => Err(ParsePosNonzeroError::from_creation(e)),
-            }
-        }
+            },
         Err(e) => Err(ParsePosNonzeroError::from_parseint(e)),
     }
 }
