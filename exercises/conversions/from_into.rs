@@ -36,33 +36,67 @@ impl Default for Person {
 // Otherwise, then return an instantiated Person object with the results
 
 impl From<&str> for Person {
+
+    // // #1 solution
+    // fn from(s: &str) -> Person {
+    //     let p = Person::default();
+    //     let mut p_mut = Person::default();
+
+    //     if s.len() == 0 {
+    //         return p;
+    //     }
+
+    //     let split: Vec<_> = s.split(",").collect();
+
+    //     if split.len() < 2 || split.len() > 2 || split[0] == "" {
+    //         return p;
+    //     }
+
+    //     if split.first() != None {
+    //         p_mut.name = split.first().unwrap().to_string();
+    //     }
+
+    //     match split[1].parse::<usize>() {
+    //         Ok(val) => {
+    //             p_mut.age = val;
+    //             return p_mut;
+    //         },
+    //         Err(_) => {
+    //             return p;
+    //         }
+    //     };
+    // }
+
+    // #2 solution
     fn from(s: &str) -> Person {
-        let p = Person::default();
-        let mut p_mut = Person::default();
-
+        // #1
         if s.len() == 0 {
-            return p;
+            return Person::default();
         }
-
-        let split: Vec<_> = s.split(",").collect();
-
-        if split.len() < 2 || split.len() > 2 || split[0] == "" {
-            return p;
-        }
-
-        if split.first() != None {
-            p_mut.name = split.first().unwrap().to_string();
-        }
-
-        match split[1].parse::<usize>() {
-            Ok(val) => {
-                p_mut.age = val;
-                return p_mut;
-            },
-            Err(_) => {
-                return p;
-            }
+        // #2
+        let mut iterator = s.split(",");
+        // #3
+        let Some(name) = iterator.next() else {
+            return Person::default();
         };
+        // #4
+        if name.is_empty() {
+            return Person::default();
+        }
+        // #5
+        let age = iterator.next().map(|s| s.parse::<usize>());
+
+        if let Some(_extra_commas) = iterator.next() {
+            return Person::default();
+        }
+
+        match age {
+            Some(Ok(num)) => Person {
+                name: name.to_string(),
+                age: num,
+            },
+            _ => Person::default(),
+        }
     }
 }
 
