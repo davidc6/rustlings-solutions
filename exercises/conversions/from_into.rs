@@ -36,7 +36,6 @@ impl Default for Person {
 // Otherwise, then return an instantiated Person object with the results
 
 impl From<&str> for Person {
-
     // // #1 solution
     // fn from(s: &str) -> Person {
     //     let p = Person::default();
