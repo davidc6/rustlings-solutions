@@ -43,34 +43,70 @@ enum ParsePersonError {
 
 impl FromStr for Person {
     type Err = ParsePersonError;
+    // #1 solution
+    // fn from_str(s: &str) -> Result<Person, Self::Err> {
+    //     if s.len() == 0 {
+    //         return Err(ParsePersonError::Empty);
+    //     }
+
+    //     let split: Vec<_> = s.split(",").collect();
+
+    //     if split.len() > 2 || split.len() < 2 {
+    //         return Err(ParsePersonError::BadLen);
+    //     }
+
+    //     let name = split[0].to_string();
+
+    //     if name == "" {
+    //         return Err(ParsePersonError::NoName);
+    //     }
+
+    //     let age: Result<usize, Self::Err> = match split[1].parse::<usize>() {
+    //         Ok(val) => Ok(val),
+    //         Err(e) => return Err(ParsePersonError::ParseInt(e))
+    //     };
+
+    //     let p = Person {
+    //         name,
+    //         age: age.unwrap()
+    //     };
+
+    //     Ok(p)
+    // }
+
+    // #2 solution
     fn from_str(s: &str) -> Result<Person, Self::Err> {
         if s.len() == 0 {
             return Err(ParsePersonError::Empty);
         }
 
-        let split: Vec<_> = s.split(",").collect();
+        let mut iterator = s.split(",");
 
-        if split.len() > 2 || split.len() < 2 {
-            return Err(ParsePersonError::BadLen);
-        }
+        let Some(name) = iterator.next() else {
+            return Err(ParsePersonError::NoName);
+        };
 
-        let name = split[0].to_string();
-
-        if name == "" {
+        if name.is_empty() {
             return Err(ParsePersonError::NoName);
         }
 
-        let age: Result<usize, Self::Err> = match split[1].parse::<usize>() {
-            Ok(val) => Ok(val),
-            Err(e) => return Err(ParsePersonError::ParseInt(e))
+        let Some(age) = iterator.next().map(|a| a.parse::<usize>()) else {
+            return Err(ParsePersonError::BadLen);
         };
 
-        let p = Person {
-            name,
-            age: age.unwrap()
-        };
+        if let Some(_leftover) = iterator.next() {
+            return Err(ParsePersonError::BadLen);
+        }
 
-        Ok(p)
+        match age {
+            Ok(num) => Ok(Person {
+                name: name.to_string(),
+                age: num
+            }),
+            Err(e) => {
+                return Err(ParsePersonError::ParseInt(e));
+            }
+        }
     }
 }
 
